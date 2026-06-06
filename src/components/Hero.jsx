@@ -1,6 +1,24 @@
 import heroBg from '../assets/hero_background.png';
 
-export default function Hero() {
+const GRAIN = "data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E";
+
+export default function Hero({
+    headline       = "Guided Fly Fishing",
+    headlineAccent = "Experiences",
+    subtitle       = null,
+    ctaPrimary     = { label: "Book Now", href: "#contact" },
+    ctaSecondary   = { label: "Email Patrick", href: "mailto:patrick@libertyflyfishing.com" },
+    imageSrc       = null,
+    overlayOpacity = 0.52,
+    showSocialProof = true,
+}) {
+    const bgSrc         = imageSrc || heroBg;
+    const overlayBase   = `rgba(26,46,69,${overlayOpacity})`;
+    const overlayGradTop = `rgba(26,46,69,${(overlayOpacity * 0.48).toFixed(2)})`;
+    const overlayGradBot = `rgba(26,46,69,${Math.min(1, overlayOpacity * 1.5).toFixed(2)})`;
+
+    const defaultSubtitle = "Blue-ribbon trout on Colorado's iconic rivers. World-class redfish in the Louisiana marsh. Guided by Patrick Gerig — USCG-certified, 57 five-star reviews.";
+
     return (
         <section style={{
             height: '100vh',
@@ -12,79 +30,139 @@ export default function Hero() {
             justifyContent: 'center',
             textAlign: 'center',
             padding: '0 1rem',
-            backgroundColor: '#183346'
+            backgroundColor: 'var(--color-primary)',
         }}>
-            {/* Background Image with Overlay */}
-            <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: 1
-            }}>
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(24, 51, 70, 0.4)', // Dark blue overlay for contrast
-                    zIndex: 2,
-                    backgroundImage: 'linear-gradient(to bottom, rgba(24,51,70,0.3), rgba(24,51,70,0.8))'
-                }}></div>
-                <img
-                    src={heroBg}
-                    alt="Fly fishing background"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center'
-                    }}
-                />
-            </div>
+            {/* Background photo */}
+            <img src={bgSrc} alt="" aria-hidden="true" style={{
+                position: 'absolute', inset: 0,
+                width: '100%', height: '100%',
+                objectFit: 'cover', objectPosition: 'center',
+                zIndex: 0,
+            }} />
 
-            <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-                <h1 className="animate-fade-in" style={{
-                    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-                    marginBottom: '1.5rem',
-                    textShadow: '0 4px 15px rgba(0,0,0,0.5)',
-                    lineHeight: 1.1
+            {/* Overlay */}
+            <div style={{
+                position: 'absolute', inset: 0,
+                backgroundColor: overlayBase,
+                backgroundImage: `linear-gradient(to bottom, ${overlayGradTop} 0%, ${overlayGradBot} 100%)`,
+                zIndex: 1,
+            }} />
+
+            {/* Grain */}
+            <div style={{
+                position: 'absolute', inset: 0,
+                backgroundImage: `url("${GRAIN}")`,
+                backgroundRepeat: 'repeat',
+                backgroundSize: '256px 256px',
+                opacity: 0.045,
+                mixBlendMode: 'overlay',
+                zIndex: 2,
+                pointerEvents: 'none',
+            }} />
+
+            {/* Content */}
+            <div className="container" style={{ position: 'relative', zIndex: 3 }}>
+                {/* Geography overline */}
+                <p style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    color: 'var(--color-accent)',
+                    marginBottom: '1rem',
+                    opacity: 0.9,
                 }}>
-                    Guided Fly Fishing<br />
-                    <span style={{ color: 'var(--color-accent)' }}>Experiences</span> in Colorado
-                </h1>
-                <p className="animate-fade-in" style={{
-                    fontSize: '1.25rem',
-                    marginBottom: '3rem',
-                    maxWidth: '700px',
-                    margin: '0 auto 3rem',
-                    animationDelay: '0.2s',
-                    opacity: 0, // handled by animation fill-mode
-                    textShadow: '0 2px 4px rgba(0,0,0,0.5)'
-                }}>
-                    Professional, safe, and unforgettable trips for everyone from beginners to experts.
+                    — Vail Valley &nbsp;·&nbsp; Louisiana Marsh —
                 </p>
+
+                <h1 className="animate-fade-in" style={{
+                    fontSize: 'clamp(2rem, 4.5vw, 3.6rem)',
+                    marginBottom: '1.25rem',
+                    textShadow: '0 3px 14px rgba(0,0,0,0.45)',
+                    lineHeight: 1.08,
+                    color: 'white',
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                }}>
+                    {headline}<br />
+                    <span style={{ color: 'var(--color-accent)' }}>{headlineAccent}</span>
+                </h1>
+
+                <p className="animate-fade-in" style={{
+                    fontSize: '1rem',
+                    maxWidth: '580px',
+                    margin: '0 auto 2.5rem',
+                    animationDelay: '0.2s',
+                    opacity: 0,
+                    textShadow: '0 2px 6px rgba(0,0,0,0.5)',
+                    lineHeight: 1.75,
+                    letterSpacing: '0.02em',
+                }}>
+                    {subtitle || defaultSubtitle}
+                </p>
+
+                {/* CTAs */}
                 <div className="animate-fade-in" style={{
                     display: 'flex',
-                    gap: '1rem',
+                    gap: '0.9rem',
                     justifyContent: 'center',
                     animationDelay: '0.4s',
                     opacity: 0,
-                    flexWrap: 'wrap'
+                    flexWrap: 'wrap',
+                    marginBottom: '2.5rem',
                 }}>
-                    <a href="tel:+1234567890" className="btn btn-primary" style={{ padding: '1.2rem 2.5rem', fontSize: '1.1rem' }}>Call Us</a>
-                    <a href="mailto:info@libertyflyfishing.com" className="btn" style={{
-                        padding: '1.2rem 2.5rem',
-                        fontSize: '1.1rem',
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        backdropFilter: 'blur(5px)',
-                        color: 'white',
-                        border: '1px solid rgba(255,255,255,0.3)'
-                    }}>Email Us</a>
+                    <a href={ctaPrimary.href} className="btn btn-primary" style={{
+                        padding: '0.9rem 2.4rem',
+                        fontSize: '0.82rem',
+                    }}>
+                        {ctaPrimary.label}
+                    </a>
+                    {ctaSecondary && (
+                        <a href={ctaSecondary.href} className="btn" style={{
+                            padding: '0.9rem 2.4rem',
+                            fontSize: '0.82rem',
+                            backgroundColor: 'rgba(255,255,255,0.12)',
+                            backdropFilter: 'blur(6px)',
+                            color: 'white',
+                            border: '1px solid rgba(255,255,255,0.3)',
+                        }}>
+                            {ctaSecondary.label}
+                        </a>
+                    )}
                 </div>
+
+                {/* Social proof */}
+                {showSocialProof && (
+                    <div className="animate-fade-in" style={{
+                        animationDelay: '0.6s',
+                        opacity: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
+                        flexWrap: 'wrap',
+                    }}>
+                        <div style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            backgroundColor: 'rgba(255,255,255,0.12)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(255,255,255,0.2)',
+                            borderRadius: '999px',
+                            padding: '0.45rem 1.1rem',
+                            fontSize: '0.78rem',
+                        }}>
+                            <span style={{ color: 'var(--color-accent)', letterSpacing: '1px' }}>★★★★★</span>
+                            <span style={{ color: 'white', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>57 Five-Star Reviews</span>
+                            <span style={{ color: 'rgba(255,255,255,0.5)' }}>·</span>
+                            <span style={{ color: 'rgba(255,255,255,0.75)' }}>Google &amp; Tripadvisor</span>
+                        </div>
+                    </div>
+                )}
             </div>
+
         </section>
     );
 }
