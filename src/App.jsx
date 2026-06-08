@@ -1,10 +1,12 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import MobileBookingBar from './components/MobileBookingBar';
 import HomePage from './pages/HomePage';
-import ColoradoPage from './pages/ColoradoPage';
-import LouisianaPage from './pages/LouisianaPage';
+
+const ColoradoPage  = lazy(() => import('./pages/ColoradoPage'));
+const LouisianaPage = lazy(() => import('./pages/LouisianaPage'));
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -19,14 +21,17 @@ function App() {
         <div className="app">
             <ScrollToTop />
             <Header />
-            <main>
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/colorado" element={<ColoradoPage />} />
-                    <Route path="/louisiana" element={<LouisianaPage />} />
-                </Routes>
+            <main id="main">
+                <Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: 'var(--color-primary)' }} />}>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/colorado" element={<ColoradoPage />} />
+                        <Route path="/louisiana" element={<LouisianaPage />} />
+                    </Routes>
+                </Suspense>
             </main>
             <Footer />
+            <MobileBookingBar />
         </div>
     );
 }

@@ -1,3 +1,4 @@
+import { Award, Anchor, ShieldCheck, Fish, Feather, Ship, Fuel, GraduationCap, UtensilsCrossed } from 'lucide-react';
 import Hero from '../components/Hero';
 import PhotoGallery from '../components/PhotoGallery';
 import BookingCTA from '../components/BookingCTA';
@@ -28,13 +29,19 @@ const wadeTrips = [
     { label: 'Full Day', hours: '7–8 hrs', price: '$600', notes: 'Lunch included · +$75/person' },
 ];
 
-const included = [
-    { icon: '🎣', text: 'Rods & Reels' },
-    { icon: '🪰', text: 'Flies & Tackle' },
-    { icon: '🚣', text: 'Drift Boat' },
-    { icon: '⛽', text: 'Fuel & Ramp Fees' },
-    { icon: '🧑‍🏫', text: 'Expert Instruction' },
-    { icon: '🥪', text: 'Lunch (full day)' },
+const floatIncluded = [
+    { Icon: Fish,             text: 'Rods & Reels' },
+    { Icon: Feather,          text: 'Flies & Tackle' },
+    { Icon: Ship,             text: 'Drift Boat' },
+    { Icon: Fuel,             text: 'Fuel & Ramp Fees' },
+    { Icon: GraduationCap,   text: 'Expert Instruction' },
+    { Icon: UtensilsCrossed, text: 'Lunch (full day)' },
+];
+
+const trustBarItems = [
+    { Icon: Award,       text: 'Colorado Outfitter License #675' },
+    { Icon: Anchor,      text: 'USCG Certified Captain' },
+    { Icon: ShieldCheck, text: 'Licensed & Insured' },
 ];
 
 function PricingCard({ trip }) {
@@ -152,8 +159,11 @@ export default function ColoradoPage() {
                         All led by Patrick Gerig. No experience necessary.
                     </p>
 
-                    {/* Float trip cards */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', alignItems: 'start', marginBottom: '1.5rem' }}>
+                    {/* Float trip cards — .pricing-card-grid gets mobile single-column from index.css */}
+                    <div
+                        className="pricing-card-grid"
+                        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', alignItems: 'start', marginBottom: '1.5rem' }}
+                    >
                         {floatTrips.map(t => <PricingCard key={t.label} trip={t} />)}
                     </div>
 
@@ -168,10 +178,10 @@ export default function ColoradoPage() {
                             Everything Included
                         </p>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem', textAlign: 'center' }}>
-                            {included.map(i => (
-                                <div key={i.text} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
-                                    <span style={{ fontSize: '1rem' }}>{i.icon}</span>
-                                    <span style={{ fontSize: '0.82rem', fontFamily: 'var(--font-heading)', fontWeight: 600, color: 'var(--color-primary)' }}>{i.text}</span>
+                            {floatIncluded.map(({ Icon, text }) => (
+                                <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                                    <Icon size={16} strokeWidth={1.75} style={{ color: 'var(--color-accent)', flexShrink: 0 }} />
+                                    <span style={{ fontSize: '0.82rem', fontFamily: 'var(--font-heading)', fontWeight: 600, color: 'var(--color-primary)' }}>{text}</span>
                                 </div>
                             ))}
                         </div>
@@ -209,12 +219,6 @@ export default function ColoradoPage() {
                         Optional lunch add-on: +$20/angler
                     </p>
                 </div>
-                <style>{`
-                    @media (max-width: 700px) {
-                        .co-pricing-grid { grid-template-columns: 1fr !important; }
-                        .pricing-card.featured { transform: none !important; }
-                    }
-                `}</style>
             </section>
 
             {/* Pre-Trip: credentials trust bar + checklist */}
@@ -222,18 +226,14 @@ export default function ColoradoPage() {
                 {/* Trust bar */}
                 <div style={{ backgroundColor: 'var(--color-primary)', padding: '1.5rem 0' }}>
                     <div className="container">
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0', flexWrap: 'wrap' }}>
-                            {[
-                                { icon: '🏅', text: 'Colorado Outfitter License #675' },
-                                { icon: '⚓', text: 'USCG Certified Captain' },
-                                { icon: '✅', text: 'Licensed & Insured' },
-                            ].map((item, i, arr) => (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                            {trustBarItems.map((item, i, arr) => (
                                 <div key={item.text} style={{
                                     display: 'flex', alignItems: 'center', gap: '0.6rem',
                                     padding: '0.5rem 1.75rem',
                                     borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.15)' : 'none',
                                 }}>
-                                    <span style={{ fontSize: '1rem' }}>{item.icon}</span>
+                                    <item.Icon size={16} strokeWidth={2} style={{ color: 'var(--color-accent)', flexShrink: 0 }} />
                                     <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>
                                         {item.text}
                                     </span>
@@ -254,7 +254,7 @@ export default function ColoradoPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
                         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
                             <div style={{
-                                width: '2.25rem', height: '2.25rem', borderRadius: '50%', flexShrink: 0,
+                                width: '2.75rem', height: '2.75rem', borderRadius: '50%', flexShrink: 0,
                                 backgroundColor: 'var(--color-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '0.9rem', color: 'var(--color-primary)',
                             }}>1</div>
@@ -265,16 +265,28 @@ export default function ColoradoPage() {
                                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: '0 0 0.75rem', lineHeight: 1.6 }}>
                                     Colorado requires a valid fishing license for all anglers. Purchase online before your trip.
                                 </p>
-                                <a href="https://cpwshop.com" target="_blank" rel="noopener noreferrer"
-                                    style={{ fontSize: '0.78rem', fontFamily: 'var(--font-heading)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-accent)', textDecoration: 'none' }}>
-                                    Get license at cpwshop.com
+                                <a
+                                    href="https://cpwshop.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'inline-block',
+                                        padding: '0.5rem 0',
+                                        fontSize: '0.78rem',
+                                        fontFamily: 'var(--font-heading)', fontWeight: 700,
+                                        letterSpacing: '0.06em', textTransform: 'uppercase',
+                                        color: 'var(--color-accent)', textDecoration: 'none',
+                                        minHeight: '44px',
+                                    }}
+                                >
+                                    Get license at cpwshop.com →
                                 </a>
                             </div>
                         </div>
 
                         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
                             <div style={{
-                                width: '2.25rem', height: '2.25rem', borderRadius: '50%', flexShrink: 0,
+                                width: '2.75rem', height: '2.75rem', borderRadius: '50%', flexShrink: 0,
                                 backgroundColor: 'var(--color-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '0.9rem', color: 'var(--color-primary)',
                             }}>2</div>
@@ -285,10 +297,21 @@ export default function ColoradoPage() {
                                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: '0 0 0.75rem', lineHeight: 1.6 }}>
                                     Takes 2 minutes. Please review and sign before your trip date.
                                 </p>
-                                <a href="https://drive.google.com/file/d/17ZFTJpImO50WnXwPob7WEhhW4flbwHpJ/view?usp=sharing"
-                                    target="_blank" rel="noopener noreferrer"
-                                    style={{ fontSize: '0.78rem', fontFamily: 'var(--font-heading)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-accent)', textDecoration: 'none' }}>
-                                    View &amp; Sign Waiver
+                                <a
+                                    href="https://drive.google.com/file/d/17ZFTJpImO50WnXwPob7WEhhW4flbwHpJ/view?usp=sharing"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'inline-block',
+                                        padding: '0.5rem 0',
+                                        fontSize: '0.78rem',
+                                        fontFamily: 'var(--font-heading)', fontWeight: 700,
+                                        letterSpacing: '0.06em', textTransform: 'uppercase',
+                                        color: 'var(--color-accent)', textDecoration: 'none',
+                                        minHeight: '44px',
+                                    }}
+                                >
+                                    View &amp; Sign Waiver →
                                 </a>
                             </div>
                         </div>

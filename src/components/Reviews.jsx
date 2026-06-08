@@ -225,7 +225,7 @@ export default function Reviews() {
                         textTransform: 'none',
                         fontSize: 'clamp(1.6rem, 2.5vw, 2.4rem)',
                     }}>
-                        Trusted by hundreds of anglers
+                        {reviews.length} Five-Star Reviews
                     </h2>
 
                     {/* Stars + count */}

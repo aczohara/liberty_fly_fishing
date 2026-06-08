@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://libertyflyfishing.com/sitemap.xml

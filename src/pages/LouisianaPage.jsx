@@ -1,3 +1,4 @@
+import { Anchor, Award, ShieldCheck, Fish, Feather, Ship, Fuel, Snowflake, GraduationCap } from 'lucide-react';
 import Hero from '../components/Hero';
 import PhotoGallery from '../components/PhotoGallery';
 import BookingCTA from '../components/BookingCTA';
@@ -23,12 +24,18 @@ const trips = [
 ];
 
 const included = [
-    { icon: '🎣', text: 'Rods & Reels' },
-    { icon: '🪰', text: 'Flies & Leaders' },
-    { icon: '🚤', text: 'Skiff & Fuel' },
-    { icon: '⛽', text: 'Ramp Fees' },
-    { icon: '🧊', text: 'Ice & Water' },
-    { icon: '🧑‍🏫', text: 'Expert Instruction' },
+    { Icon: Fish,           text: 'Rods & Reels' },
+    { Icon: Feather,        text: 'Flies & Leaders' },
+    { Icon: Ship,           text: 'Skiff & Fuel' },
+    { Icon: Fuel,           text: 'Ramp Fees' },
+    { Icon: Snowflake,      text: 'Ice & Water' },
+    { Icon: GraduationCap, text: 'Expert Instruction' },
+];
+
+const trustBarItems = [
+    { Icon: Anchor,      text: 'USCG Certified Captain' },
+    { Icon: Award,       text: 'LA Commercial Saltwater License' },
+    { Icon: ShieldCheck, text: 'Licensed & Insured' },
 ];
 
 function PricingCard({ trip }) {
@@ -137,8 +144,11 @@ export default function LouisianaPage() {
                         All led by Patrick Gerig. No fly fishing experience required.
                     </p>
 
-                    {/* Trip cards */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', alignItems: 'start', marginBottom: '1.5rem' }}>
+                    {/* Trip cards — .pricing-card-grid gets mobile single-column from index.css */}
+                    <div
+                        className="pricing-card-grid"
+                        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', alignItems: 'start', marginBottom: '1.5rem' }}
+                    >
                         {trips.map(t => <PricingCard key={t.label} trip={t} />)}
                     </div>
 
@@ -153,10 +163,10 @@ export default function LouisianaPage() {
                             Everything Included
                         </p>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem', textAlign: 'center' }}>
-                            {included.map(i => (
-                                <div key={i.text} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
-                                    <span style={{ fontSize: '1rem' }}>{i.icon}</span>
-                                    <span style={{ fontSize: '0.82rem', fontFamily: 'var(--font-heading)', fontWeight: 600, color: 'var(--color-primary)' }}>{i.text}</span>
+                            {included.map(({ Icon, text }) => (
+                                <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                                    <Icon size={16} strokeWidth={1.75} style={{ color: 'var(--color-accent)', flexShrink: 0 }} />
+                                    <span style={{ fontSize: '0.82rem', fontFamily: 'var(--font-heading)', fontWeight: 600, color: 'var(--color-primary)' }}>{text}</span>
                                 </div>
                             ))}
                         </div>
@@ -172,18 +182,14 @@ export default function LouisianaPage() {
                 {/* Trust bar */}
                 <div style={{ backgroundColor: 'var(--color-primary)', padding: '1.5rem 0' }}>
                     <div className="container">
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 0, flexWrap: 'wrap' }}>
-                            {[
-                                { icon: '⚓', text: 'USCG Certified Captain' },
-                                { icon: '🏅', text: 'LA Commercial Saltwater License' },
-                                { icon: '✅', text: 'Licensed & Insured' },
-                            ].map((item, i, arr) => (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                            {trustBarItems.map((item, i, arr) => (
                                 <div key={item.text} style={{
                                     display: 'flex', alignItems: 'center', gap: '0.6rem',
                                     padding: '0.5rem 1.75rem',
                                     borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.15)' : 'none',
                                 }}>
-                                    <span style={{ fontSize: '1rem' }}>{item.icon}</span>
+                                    <item.Icon size={16} strokeWidth={2} style={{ color: 'var(--color-accent)', flexShrink: 0 }} />
                                     <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>
                                         {item.text}
                                     </span>
@@ -204,7 +210,7 @@ export default function LouisianaPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
                         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
                             <div style={{
-                                width: '2.25rem', height: '2.25rem', borderRadius: '50%', flexShrink: 0,
+                                width: '2.75rem', height: '2.75rem', borderRadius: '50%', flexShrink: 0,
                                 backgroundColor: 'var(--color-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '0.9rem', color: 'var(--color-primary)',
                             }}>1</div>
@@ -215,16 +221,28 @@ export default function LouisianaPage() {
                                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: '0 0 0.75rem', lineHeight: 1.6 }}>
                                     Louisiana requires a valid saltwater fishing license. A 3-day basic charter license is available for ~$20.
                                 </p>
-                                <a href="https://wlf.louisiana.gov" target="_blank" rel="noopener noreferrer"
-                                    style={{ fontSize: '0.78rem', fontFamily: 'var(--font-heading)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-accent)', textDecoration: 'none' }}>
-                                    Get license at wlf.louisiana.gov
+                                <a
+                                    href="https://wlf.louisiana.gov"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'inline-block',
+                                        padding: '0.5rem 0',
+                                        fontSize: '0.78rem',
+                                        fontFamily: 'var(--font-heading)', fontWeight: 700,
+                                        letterSpacing: '0.06em', textTransform: 'uppercase',
+                                        color: 'var(--color-accent)', textDecoration: 'none',
+                                        minHeight: '44px',
+                                    }}
+                                >
+                                    Get license at wlf.louisiana.gov →
                                 </a>
                             </div>
                         </div>
 
                         <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
                             <div style={{
-                                width: '2.25rem', height: '2.25rem', borderRadius: '50%', flexShrink: 0,
+                                width: '2.75rem', height: '2.75rem', borderRadius: '50%', flexShrink: 0,
                                 backgroundColor: 'var(--color-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '0.9rem', color: 'var(--color-primary)',
                             }}>2</div>
@@ -235,10 +253,21 @@ export default function LouisianaPage() {
                                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: '0 0 0.75rem', lineHeight: 1.6 }}>
                                     Takes 2 minutes. Please review and sign before your trip date.
                                 </p>
-                                <a href="https://drive.google.com/file/d/17ZFTJpImO50WnXwPob7WEhhW4flbwHpJ/view?usp=sharing"
-                                    target="_blank" rel="noopener noreferrer"
-                                    style={{ fontSize: '0.78rem', fontFamily: 'var(--font-heading)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-accent)', textDecoration: 'none' }}>
-                                    View &amp; Sign Waiver
+                                <a
+                                    href="https://drive.google.com/file/d/17ZFTJpImO50WnXwPob7WEhhW4flbwHpJ/view?usp=sharing"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'inline-block',
+                                        padding: '0.5rem 0',
+                                        fontSize: '0.78rem',
+                                        fontFamily: 'var(--font-heading)', fontWeight: 700,
+                                        letterSpacing: '0.06em', textTransform: 'uppercase',
+                                        color: 'var(--color-accent)', textDecoration: 'none',
+                                        minHeight: '44px',
+                                    }}
+                                >
+                                    View &amp; Sign Waiver →
                                 </a>
                             </div>
                         </div>

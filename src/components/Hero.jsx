@@ -20,20 +20,22 @@ export default function Hero({
     const defaultSubtitle = "Blue-ribbon trout on Colorado's iconic rivers. World-class redfish in the Louisiana marsh. Guided by Patrick Gerig — USCG-certified, 57 five-star reviews.";
 
     return (
-        <section style={{
-            height: '100vh',
-            position: 'relative',
-            overflow: 'hidden',
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '0 1rem',
-            backgroundColor: 'var(--color-primary)',
-        }}>
-            {/* Background photo */}
-            <img src={bgSrc} alt="" aria-hidden="true" style={{
+        <section
+            className="hero-section"
+            style={{
+                position: 'relative',
+                overflow: 'hidden',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                padding: '0 1rem',
+                backgroundColor: 'var(--color-primary)',
+            }}
+        >
+            {/* Background photo — high priority because it's the LCP element */}
+            <img src={bgSrc} alt="" aria-hidden="true" fetchpriority="high" style={{
                 position: 'absolute', inset: 0,
                 width: '100%', height: '100%',
                 objectFit: 'cover', objectPosition: 'center',
@@ -115,6 +117,7 @@ export default function Hero({
                     <a href={ctaPrimary.href} className="btn btn-primary" style={{
                         padding: '0.9rem 2.4rem',
                         fontSize: '0.82rem',
+                        minHeight: '44px',
                     }}>
                         {ctaPrimary.label}
                     </a>
@@ -126,6 +129,7 @@ export default function Hero({
                             backdropFilter: 'blur(6px)',
                             color: 'white',
                             border: '1px solid rgba(255,255,255,0.3)',
+                            minHeight: '44px',
                         }}>
                             {ctaSecondary.label}
                         </a>
@@ -153,6 +157,7 @@ export default function Hero({
                             borderRadius: '999px',
                             padding: '0.45rem 1.1rem',
                             fontSize: '0.78rem',
+                            cursor: 'default',
                         }}>
                             <span style={{ color: 'var(--color-accent)', letterSpacing: '1px' }}>★★★★★</span>
                             <span style={{ color: 'white', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>57 Five-Star Reviews</span>
@@ -162,7 +167,6 @@ export default function Hero({
                     </div>
                 )}
             </div>
-
         </section>
     );
 }

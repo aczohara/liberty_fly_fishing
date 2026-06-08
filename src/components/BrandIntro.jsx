@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom';
+import { Anchor, MapPin, Fish, Star } from 'lucide-react';
 import TopoBackground from './TopoBackground';
 
 const credentials = [
-    { icon: '⚓', title: 'USCG Certified', sub: 'Licensed & Insured' },
-    { icon: '📍', title: 'Two Fisheries', sub: 'Colorado & Louisiana' },
-    { icon: '🎣', title: 'All Levels', sub: 'First cast to expert' },
-    { icon: '⭐', title: '57 Five-Star Reviews', sub: 'Google & Tripadvisor' },
+    { Icon: Anchor, title: 'USCG Certified', sub: 'Licensed & Insured' },
+    { Icon: MapPin,  title: 'Two Fisheries',  sub: 'Colorado & Louisiana' },
+    { Icon: Fish,    title: 'All Levels',      sub: 'First cast to expert' },
+    { Icon: Star,    title: '57 Five-Star Reviews', sub: 'Google & Tripadvisor' },
 ];
 
 export default function BrandIntro() {
@@ -21,32 +23,32 @@ export default function BrandIntro() {
             <TopoBackground position="15% 20%" opacity={0.18} />
             <div className="container" style={{ position: 'relative', zIndex: 1 }}>
 
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '4rem',
-                    alignItems: 'center',
-                    marginBottom: '4rem',
-                }}>
-                    {/* Photo */}
-                    <div
-                        className="photo-frame"
-                        style={{
-                            aspectRatio: '4 / 3',
-                            borderRadius: 'var(--radius-md)',
-                            boxShadow: '0 24px 64px rgba(26,46,69,0.22)',
-                        }}
+                <div className="brand-intro-layout">
+                    {/* Photo — linked to Colorado to fix affordance (hover zooms but was non-clickable) */}
+                    <Link
+                        to="/colorado"
+                        style={{ display: 'block', textDecoration: 'none' }}
+                        aria-label="Explore Colorado guided trips"
                     >
-                        <img
-                            src="/images/favorites/co/fishing_on_boat.JPG"
-                            alt="Guided float trip with Patrick Gerig — Liberty Fly Fishing"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                        />
-                        <div style={{
-                            position: 'absolute', bottom: 0, left: 0, right: 0,
-                            height: '4px', backgroundColor: 'var(--color-accent)',
-                        }} />
-                    </div>
+                        <div
+                            className="photo-frame"
+                            style={{
+                                aspectRatio: '4 / 3',
+                                borderRadius: 'var(--radius-md)',
+                                boxShadow: '0 24px 64px rgba(26,46,69,0.22)',
+                            }}
+                        >
+                            <img
+                                src="/images/favorites/co/fishing_on_boat.JPG"
+                                alt="Guided float trip with Patrick Gerig on a Colorado river"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            />
+                            <div style={{
+                                position: 'absolute', bottom: 0, left: 0, right: 0,
+                                height: '4px', backgroundColor: 'var(--color-accent)',
+                            }} />
+                        </div>
+                    </Link>
 
                     {/* Text */}
                     <div>
@@ -68,7 +70,6 @@ export default function BrandIntro() {
                             you on fish.
                         </p>
 
-                        {/* Arrow link to reviews */}
                         <a
                             href="#reviews"
                             style={{
@@ -91,12 +92,7 @@ export default function BrandIntro() {
                 </div>
 
                 {/* Credential grid */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gap: 0,
-                    borderTop: '1px solid rgba(26,46,69,0.1)',
-                }}>
+                <div className="brand-credential-grid">
                     {credentials.map((c, i) => (
                         <div key={c.title} style={{
                             padding: '1.75rem 1.5rem',
@@ -104,7 +100,9 @@ export default function BrandIntro() {
                             borderRight: i < credentials.length - 1 ? '1px solid rgba(26,46,69,0.1)' : 'none',
                             borderTop: '3px solid var(--color-accent)',
                         }}>
-                            <div style={{ fontSize: '1.6rem', marginBottom: '0.5rem' }}>{c.icon}</div>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem', color: 'var(--color-accent)' }}>
+                                <c.Icon size={28} strokeWidth={1.5} />
+                            </div>
                             <p style={{
                                 fontFamily: 'var(--font-heading)',
                                 fontWeight: 800,
@@ -123,18 +121,6 @@ export default function BrandIntro() {
                     ))}
                 </div>
             </div>
-
-            <style>{`
-                @media (max-width: 768px) {
-                    #about .container > div:first-child {
-                        grid-template-columns: 1fr !important;
-                        gap: 2rem !important;
-                    }
-                    #about .container > div:last-child {
-                        grid-template-columns: repeat(2, 1fr) !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 }

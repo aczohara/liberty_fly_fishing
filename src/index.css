@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap');
+/* Google Fonts loaded via <link> in index.html to avoid render-blocking @import */
 
 :root {
   /* ── Brand Colors ─────────────────────────────── */
@@ -130,7 +130,7 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
   box-shadow: var(--shadow-sm);
 }
 
@@ -159,7 +159,7 @@ button {
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition: transform var(--transition-normal);
   border: 1px solid rgba(26, 46, 69, 0.07);
 }
 
@@ -251,13 +251,8 @@ section {
   border: 1px solid rgba(26,46,69,0.07);
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
   position: relative;
-}
-
-.pricing-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
 }
 
 .pricing-card.featured {
@@ -265,10 +260,6 @@ section {
   transform: translateY(-8px);
   box-shadow: 0 16px 48px rgba(26,46,69,0.18);
   z-index: 2;
-}
-
-.pricing-card.featured:hover {
-  transform: translateY(-13px);
 }
 
 /* ── Arrow icons ────────────────────────────────── */
@@ -299,4 +290,193 @@ section {
 .sr.sr-visible {
   opacity: 1;
   transform: none;
+}
+
+/* ── Focus visible — WCAG 2.4.7 ────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Touch — eliminate 300ms tap delay ─────────── */
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* ── Screen reader only ─────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.sr-only:focus-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  font-weight: 700;
+  z-index: 9999;
+}
+
+/* ── Hero — dvh for iOS Safari ─────────────────── */
+
+.hero-section {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ── Pricing card hover — remove card lift ──────── */
+
+.pricing-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-hover);
+}
+
+.pricing-card.featured:hover {
+  transform: translateY(-8px);
+}
+
+/* ── Pricing grid — mobile single column ────────── */
+
+@media (max-width: 700px) {
+  .pricing-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .pricing-card.featured {
+    transform: none !important;
+    order: -1;
+  }
+}
+
+/* ── Mobile booking bar ─────────────────────────── */
+
+.mobile-booking-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-booking-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    padding: 0 1.25rem;
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 998;
+    background-color: var(--color-primary);
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.22);
+    transition: transform 0.3s ease;
+  }
+  .mobile-booking-bar.hidden {
+    transform: translateY(100%);
+  }
+  /* Prevent content being hidden behind bar */
+  body {
+    padding-bottom: 64px;
+  }
+}
+
+/* ── Gallery — reduced motion ───────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-track {
+    animation: none !important;
+  }
+  .ig-wrapper {
+    overflow-x: auto;
+  }
+  .bounce {
+    animation: none;
+  }
+  .animate-fade-in {
+    animation: none;
+    opacity: 1 !important;
+  }
+}
+
+/* ── Gallery — mobile height ────────────────────── */
+
+@media (max-width: 768px) {
+  .ig-wrapper {
+    height: 360px !important;
+  }
+}
+
+/* ── BookingCTA responsive ──────────────────────── */
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.form-row-half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-row-half {
+    grid-template-columns: 1fr;
+  }
+  .booking-form-submit {
+    min-height: 54px;
+  }
+}
+
+/* ── BrandIntro responsive ──────────────────────── */
+
+.brand-intro-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.brand-credential-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(26, 46, 69, 0.1);
+}
+
+@media (max-width: 768px) {
+  .brand-intro-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .brand-credential-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }

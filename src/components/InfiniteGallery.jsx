@@ -133,8 +133,8 @@ function InfiniteGallery({ images = [] }) {
             style={{
                 overflow: 'hidden',
                 lineHeight: 0,
-                height: `${STRIP_H}px`,  // explicit height prevents layout recalc on image load
-                contain: 'layout paint', // isolates gallery from page layout/paint
+                height: `${STRIP_H}px`,
+                contain: 'strict', // layout + paint + size isolation; safe because height is explicit
             }}
             onMouseEnter={e => e.currentTarget.classList.add('ig-paused')}
             onMouseLeave={e => e.currentTarget.classList.remove('ig-paused')}
@@ -172,6 +172,7 @@ function InfiniteGallery({ images = [] }) {
                                     src={img.src}
                                     alt={img.alt || ''}
                                     decoding="async"
+                                    fetchpriority="low"
                                     style={{
                                         width: '100%',
                                         height: '100%',
@@ -192,6 +193,10 @@ function InfiniteGallery({ images = [] }) {
                     to   { transform: translateX(-50%); }
                 }
                 .ig-paused .ig-track { animation-play-state: paused; }
+                @media (prefers-reduced-motion: reduce) {
+                    .ig-track { animation: none !important; }
+                    .ig-wrapper { overflow-x: auto !important; }
+                }
             `}</style>
         </div>
     );
